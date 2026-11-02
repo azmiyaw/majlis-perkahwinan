@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Senarai RSVP</title>
+<style>
+  :root { --ground: #0f2a22; --card: #14352b; --gold: #d6b56a; --ivory: #f3ecda; --mist: #b9c7bd; --danger: #f0a39a; color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 24px 16px 60px; background: var(--ground); color: var(--ivory); font: 16px/1.5 Georgia, serif; }
+  main { max-width: 860px; margin: 0 auto; }
+  h1 { color: var(--gold); font-weight: 400; margin: 0 0 16px; }
+  form { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+  input { flex: 1 1 220px; padding: 10px 12px; font: inherit; color: var(--ivory); background: var(--card); border: 1px solid #a88f52; }
+  button { padding: 10px 20px; font: inherit; background: var(--gold); color: var(--ground); border: 0; cursor: pointer; }
+  input:focus-visible, button:focus-visible { outline: 2px solid var(--ivory); outline-offset: 2px; }
+  #msg { color: var(--danger); min-height: 1.5em; }
+  .sum { color: var(--mist); margin: 0 0 12px; }
+  .sum b { color: var(--gold); }
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 560px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid rgba(214,181,106,.25); vertical-align: top; overflow-wrap: anywhere; }
+  th { color: var(--mist); font-weight: 400; font-size: .8rem; text-transform: uppercase; letter-spacing: .1em; }
+  td.n { text-align: right; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Senarai RSVP</h1>
+  <form id="f">
+    <label for="k" style="position:absolute;left:-9999px">Kata laluan admin</label>
+    <input id="k" type="password" placeholder="Kata laluan admin" autocomplete="current-password" required>
+    <button type="submit">Papar</button>
+  </form>
+  <p id="msg" role="status"></p>
+  <p class="sum" id="sum" hidden></p>
+  <div class="scroll"><table id="t" hidden>
+    <thead><tr><th>Masa</th><th>Nama</th><th>Bil.</th><th>Ucapan</th></tr></thead>
+    <tbody></tbody>
+  </table></div>
+</main>
+<script src="config.js"></script>
+<script>
+(function () {
+  var API = (window.WEDDING_CONFIG || {}).API_URL;
+  var msg = document.getElementById("msg");
+  document.getElementById("f").addEventListener("submit", function (e) {
+    e.preventDefault();
+    msg.textContent = "";
+    if (!API) { msg.textContent = "API_URL belum diisi dalam config.js."; return; }
+    var key = document.getElementById("k").value;
+    fetch(API + "?action=admin&key=" + encodeURIComponent(key), { cache: "no-store" })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (!d.ok) { msg.textContent = "Kata laluan salah."; return; }
+        var tb = document.querySelector("#t tbody"); tb.textContent = "";
+        d.rows.forEach(function (r) {
+          var tr = document.createElement("tr");
+          [new Date(r.ts).toLocaleString("ms-MY"), r.name, r.headcount, r.wish].forEach(function (v, i) {
+            var td = document.createElement("td"); if (i === 2) td.className = "n";
+            td.textContent = v; tr.appendChild(td);
+          });
+          tb.appendChild(tr);
+        });
+        var s = document.getElementById("sum");
+        s.textContent = "";
+        var b = document.createElement("b"); b.textContent = d.totalHeadcount;
+        s.appendChild(document.createTextNode("Jumlah tetamu: ")); s.appendChild(b);
+        s.appendChild(document.createTextNode(" orang dari " + d.rows.length + " RSVP"));
+        s.hidden = false; document.getElementById("t").hidden = false;
+      })
+      .catch(function () { msg.textContent = "Tidak dapat menyambung. Semak API_URL."; });
+  });
+})();
+</script>
+</body>
+</html>
