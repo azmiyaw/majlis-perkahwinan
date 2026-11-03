@@ -51,25 +51,36 @@
 
   /* ---------- Gate ---------- */
   #gate {
-    position: fixed; inset: 0; z-index: 50; perspective: 1600px; overflow: hidden;
-    display: grid; align-content: center; justify-items: center; text-align: center;
+    position: fixed; inset: 0; z-index: 50; overflow-y: auto; background: var(--ground) var(--batik);
+    display: grid; align-content: safe center; justify-items: center; text-align: center;
     padding: 24px max(16px, env(safe-area-inset-left, 0px));
+    transition: opacity .6s ease, visibility .6s;
   }
-  /* Pintu gerbang: two palace doors that swing open when the guest taps "Buka Jemputan". */
-  .door { position: absolute; top: 0; bottom: 0; width: 50%; background: var(--ground) var(--batik); backface-visibility: hidden; transition: transform 1.4s cubic-bezier(.6, .05, .3, 1) .35s; }
-  .door::before { content: ""; position: absolute; inset: 14px; border: 1px solid rgba(220,185,110,.45); }
-  .door::after { content: ""; position: absolute; top: calc(50% - 8px); width: 16px; height: 16px; background: var(--gold); transform: rotate(45deg); box-shadow: 0 0 10px rgba(220,185,110,.6); }
-  .door.l { left: 0; transform-origin: left center; border-right: 2px solid var(--gold); }
-  .door.r { right: 0; transform-origin: right center; border-left: 2px solid var(--gold); }
-  .door.l::before { right: 8px; } .door.r::before { left: 8px; }
-  .door.l::after { right: 18px; } .door.r::after { left: 18px; }
-  #gate .gate-frame { z-index: 1; transition: opacity .35s ease, transform .35s ease; }
-  #gate.opening .gate-frame { opacity: 0; transform: scale(.96); pointer-events: none; }
-  #gate.opening .door.l { transform: rotateY(-100deg); }
-  #gate.opening .door.r { transform: rotateY(100deg); }
+  #gate.done { opacity: 0; visibility: hidden; }
+  /* Sampul surat: a sealed envelope; the seal or button opens the flap and the letter slides out. */
+  .env { position: relative; width: min(320px, 84vw); aspect-ratio: 3 / 2; margin: 6px auto 26px; perspective: 900px; }
+  .env > * { position: absolute; }
+  .env-back { inset: 0; background: #3f0c18; border: 1px solid var(--gold-soft); box-shadow: 0 14px 30px rgba(0,0,0,.5); }
+  .letter { left: 6%; right: 6%; top: 5%; height: 90%; z-index: 2; background: var(--ivory); color: var(--card); display: grid; align-content: start; justify-items: center; gap: 2px; padding-top: 9%; box-shadow: 0 6px 16px rgba(0,0,0,.35); transition: transform 1s cubic-bezier(.3, .7, .3, 1) .75s; }
+  .letter::before { content: ""; position: absolute; inset: 6px; border: 1px solid var(--gold-soft); }
+  .letter .l1 { font-family: var(--sans); font-size: .6rem; letter-spacing: .3em; text-transform: uppercase; color: var(--gold-soft); }
+  .letter .l2 { font-family: var(--script); font-size: 2.1rem; line-height: 1.25; }
+  .letter .l3 { font-family: var(--sans); font-size: .7rem; letter-spacing: .2em; }
+  .env-front { inset: 0; width: 100%; height: 100%; z-index: 3; }
+  .env-flap { left: 0; top: 0; width: 100%; height: 60%; z-index: 4; transform-origin: top center; transition: transform .7s ease .25s, z-index 0s linear .55s; }
+  .seal { left: calc(50% - 29px); top: calc(60% - 29px); width: 58px; height: 58px; z-index: 5; border: 0; border-radius: 50%; cursor: pointer; padding: 0;
+    background: radial-gradient(circle at 35% 30%, #f3d68f, var(--gold) 55%, #a8803c); color: var(--card);
+    font-family: var(--names); font-style: italic; font-weight: 600; font-size: 1rem;
+    box-shadow: 0 3px 8px rgba(0,0,0,.45), inset 0 0 0 3px rgba(122,82,28,.35); transition: transform .35s ease, opacity .35s ease; }
+  .seal:hover { transform: scale(1.06); }
+  #gate .eyebrow, #gate .gate-names, #gate .gate-line, #gate #open-btn { transition: opacity .3s ease; }
+  #gate.opening .eyebrow, #gate.opening .gate-names, #gate.opening .gate-line, #gate.opening #open-btn { opacity: 0; pointer-events: none; }
+  #gate.opening .seal { opacity: 0; transform: scale(.6); pointer-events: none; }
+  #gate.opening .env-flap { transform: rotateX(180deg); z-index: 1; }
+  #gate.opening .letter { transform: translateY(-62%); }
   .gate-frame { position: relative; background: var(--card); border: 1px solid rgba(220,185,110,.35); padding: 60px clamp(20px, 7vw, 48px); max-width: 420px; width: 100%; }
   .eyebrow { font-family: var(--sans); font-weight: 300; font-size: .75rem; letter-spacing: .32em; text-transform: uppercase; color: var(--mist); margin: 0 0 18px; }
-  .gate-names { font-family: var(--script); font-weight: 400; color: var(--gold); font-size: clamp(2.6rem, 13vw, 3.8rem); line-height: 1.45; margin: 0 0 14px; text-wrap: balance; background: linear-gradient(110deg, var(--gold) 0%, var(--gold) 42%, #fff3cf 50%, var(--gold) 58%, var(--gold) 100%) 120% 0 / 250% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 3px 4px rgba(0,0,0,.55)) drop-shadow(0 0 10px rgba(220,185,110,.3)); }
+  .gate-names { font-family: var(--script); font-weight: 400; color: var(--gold); font-size: clamp(2.3rem, 11vw, 3.2rem); line-height: 1.4; margin: 0 0 10px; text-wrap: balance; background: linear-gradient(110deg, var(--gold) 0%, var(--gold) 42%, #fff3cf 50%, var(--gold) 58%, var(--gold) 100%) 120% 0 / 250% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 3px 4px rgba(0,0,0,.55)) drop-shadow(0 0 10px rgba(220,185,110,.3)); }
   @media (prefers-reduced-motion: no-preference) { .gate-names { animation: shimmer 4.5s ease-in-out 1s infinite; } @keyframes shimmer { 0%, 55% { background-position: 120% 0; } 100% { background-position: -20% 0; } } }
   .gate-names .amp { display: block; font-size: .6em; line-height: 1; margin: -.05em 0 .1em; }
   .cap { font-size: 1.3em; line-height: 1; }
@@ -175,7 +186,7 @@
 
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    #site, .door, #gate .gate-frame { transition: none; }
+    #site, #gate, #gate *, .env > * { transition: none !important; }
   }
 </style>
 </head>
@@ -183,14 +194,17 @@
 
 <!-- Step 1: gate. Nothing else is visible until "Buka Jemputan" is pressed. -->
 <div id="gate">
-  <div class="door l" aria-hidden="true"></div>
-  <div class="door r" aria-hidden="true"></div>
-  <div class="gate-frame">
-    <p class="eyebrow">Walimatulurus</p>
-    <h1 class="gate-names"><span class="cap">A</span>zmi <span class="amp">&amp;</span> <span class="cap">A</span>zira</h1>
-    <p class="gate-line">Anda dijemput</p>
-    <button type="button" class="btn" id="open-btn">Buka Jemputan</button>
+  <p class="eyebrow">Walimatulurus</p>
+  <h1 class="gate-names"><span class="cap">A</span>zmi <span class="amp">&amp;</span> <span class="cap">A</span>zira</h1>
+  <div class="env">
+    <div class="env-back"></div>
+    <div class="letter" aria-hidden="true"><span class="l1">Jemputan</span><span class="l2">Azmi &amp; Azira</span><span class="l3">28 . 11 . 2026</span></div>
+    <svg class="env-front" viewBox="0 0 300 200" preserveAspectRatio="none" aria-hidden="true"><path d="M0,0 L150,112 L300,0 L300,200 L0,200Z" fill="#5a1426" stroke="#dcb96e" stroke-width="1.2" vector-effect="non-scaling-stroke"/><path d="M0,200 L128,96 M300,200 L172,96" fill="none" stroke="#dcb96e" stroke-opacity=".45" stroke-width="1" vector-effect="non-scaling-stroke"/></svg>
+    <svg class="env-flap" viewBox="0 0 300 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0,0 L300,0 L150,118Z" fill="#661a2e" stroke="#dcb96e" stroke-width="1.2" vector-effect="non-scaling-stroke"/></svg>
+    <button type="button" class="seal" id="seal-btn" aria-label="Buka jemputan">A&amp;A</button>
   </div>
+  <p class="gate-line">Anda dijemput</p>
+  <button type="button" class="btn" id="open-btn">Buka Jemputan</button>
 </div>
 <noscript><style>#gate { display: none; } #site { opacity: 1; }</style></noscript>
 <canvas id="petals" aria-hidden="true"></canvas>
@@ -313,7 +327,7 @@
   </footer>
 </div>
 
-<audio id="bgm" loop preload="none" src="music.m4a"></audio>
+<audio id="bgm" preload="none" src="music.m4a"></audio>
 <button type="button" id="music" hidden aria-label="Mainkan muzik" aria-pressed="false">Muzik</button>
 
 <script src="config.js"></script>
@@ -335,16 +349,18 @@
     setupReveal();
     requestAnimationFrame(function () { $("site").classList.add("shown"); });
     $("gate").classList.add("opening");
+    setTimeout(function () { $("gate").classList.add("done"); }, reduced ? 0 : 1900);
     setTimeout(function () {
       document.body.classList.remove("locked");
       $("gate").hidden = true;
       window.scrollTo(0, 0);
       if (!reduced) startPetals();
-    }, reduced ? 0 : 1800);
+    }, reduced ? 0 : 2500);
     tryMusic();
     loadWishes();
     if (API) setInterval(function () { if (!document.hidden) loadWishes(); }, (CFG.POLL_SECONDS || 20) * 1000);
   });
+  $("seal-btn").addEventListener("click", function () { $("open-btn").click(); });
 
   /* ---------- Music (optional: put music.m4a next to index.html) ---------- */
   var bgm = $("bgm"), mbtn = $("music");
@@ -353,9 +369,19 @@
   function tryMusic() {
     var p = bgm.play();
     if (!p || !p.then) return;
-    p.then(function () { mbtn.hidden = false; setMusicUI(true); })
+    p.then(function () { mbtn.hidden = false; setMusicUI(true); setTimeout(fadeOut, 60000); })
      .catch(function (e) { if (e && e.name === "NotAllowedError") { mbtn.hidden = false; setMusicUI(false); } });
   }
+  // The opening music stops after one minute; a guest can still press "Muzik" to hear more.
+  function fadeOut() {
+    if (bgm.paused) return;
+    var v = 1, iv = setInterval(function () {
+      v -= .05;
+      if (v <= 0) { clearInterval(iv); bgm.pause(); bgm.volume = 1; setMusicUI(false); }
+      else bgm.volume = v;
+    }, 150);
+  }
+  bgm.addEventListener("ended", function () { setMusicUI(false); });
   bgm.addEventListener("error", function () { mbtn.hidden = true; });
   mbtn.addEventListener("click", function () {
     if (bgm.paused) bgm.play().then(function () { setMusicUI(true); }).catch(function () {});
