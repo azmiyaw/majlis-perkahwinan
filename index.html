@@ -80,7 +80,12 @@
   #gate.opening .letter { transform: translateY(-62%); }
   /* Once the letter is out, zoom into it and cross-fade to the invitation. */
   #gate.zoom { overflow: hidden; }
-  #gate.zoom .env { transform: scale(3.4); }
+  #gate.zoom .env { transform: scale(6); }
+  #gate.zoom .env-back, #gate.zoom .env-front, #gate.zoom .env-flap, #gate.zoom .env-names { opacity: 0; transition: opacity .45s ease; }
+  #gate.zoom .letter > span, #gate.zoom .letter::before { opacity: 0; transition: opacity .35s ease .15s; }
+  #gate.zoom .letter { box-shadow: none; }
+  /* Then the plain ivory card turns maroon, so the invitation fades in with no double text. */
+  #gate.dip .letter { background: var(--ground); transition: transform 1s cubic-bezier(.3, .7, .3, 1) .75s, background-color .45s ease; }
   /* The seal is the only way in: it reads "Buka" and pulses gently. */
   @media (prefers-reduced-motion: no-preference) {
     .seal { animation: sealPulse 2.2s ease-out infinite; }
@@ -360,13 +365,14 @@
     setupReveal();
     $("gate").classList.add("opening");
     setTimeout(function () { $("gate").classList.add("zoom"); }, reduced ? 0 : 1700);
-    setTimeout(function () { $("gate").classList.add("done"); $("site").classList.add("shown"); }, reduced ? 0 : 2500);
+    setTimeout(function () { $("gate").classList.add("dip"); }, reduced ? 0 : 2550);
+    setTimeout(function () { $("gate").classList.add("done"); $("site").classList.add("shown"); }, reduced ? 0 : 2950);
     setTimeout(function () {
       document.body.classList.remove("locked");
       $("gate").hidden = true;
       window.scrollTo(0, 0);
       if (!reduced) startPetals();
-    }, reduced ? 0 : 3350);
+    }, reduced ? 0 : 3750);
     tryMusic();
     loadWishes();
     if (API) setInterval(function () { if (!document.hidden) loadWishes(); }, (CFG.POLL_SECONDS || 20) * 1000);
