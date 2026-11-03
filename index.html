@@ -89,10 +89,13 @@
   .details dd { margin: 2px 0 0; font-size: 1.45rem; font-weight: 600; text-wrap: balance; }
   .details dd small { display: block; font-weight: 400; font-size: 1.05rem; }
 
-  .count { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin: 28px 0 0; }
-  .count div { min-width: 66px; padding: 10px 6px; border: 1px solid var(--gold-soft); }
-  .count b { display: block; font-size: 1.7rem; font-weight: 600; color: var(--gold); line-height: 1.1; font-variant-numeric: tabular-nums; }
-  .count span { font-family: var(--sans); font-weight: 300; font-size: .62rem; letter-spacing: .2em; text-transform: uppercase; color: var(--mist); }
+  /* Kalendar: a tear-off calendar page showing the date and the days left. */
+  .cal { width: 156px; margin: 32px auto 0; background: var(--ivory); color: var(--card); box-shadow: 0 8px 20px rgba(0,0,0,.45); }
+  .cal .top { background: var(--gold); color: var(--card); font-family: var(--sans); font-weight: 400; font-size: .72rem; letter-spacing: .24em; padding: 7px 0; }
+  .cal .day { font-size: 3.4rem; font-weight: 600; line-height: 1; padding-top: 10px; }
+  .cal .wd { font-style: italic; font-size: 1.15rem; padding-bottom: 8px; }
+  .cal .left { font-family: var(--sans); font-weight: 400; font-size: .68rem; letter-spacing: .16em; text-transform: uppercase; border-top: 1px dashed var(--gold-soft); margin: 0 12px; padding: 8px 0 10px; }
+  .cal .left b { font-variant-numeric: tabular-nums; }
   .btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 26px; }
   .scroll-hint { display: inline-flex; align-items: center; gap: 10px; margin-top: 36px; padding: 13px 26px; font-family: var(--sans); font-weight: 400; font-size: .76rem; letter-spacing: .24em; text-transform: uppercase; color: var(--ground); background: var(--gold); border: 1px solid var(--gold); text-decoration: none; box-shadow: 0 6px 18px rgba(0,0,0,.5), 0 0 0 6px rgba(59,10,20,.85); }
   .scroll-hint:hover { background: var(--ivory); }
@@ -187,8 +190,11 @@
           <div><dt>Tempat</dt><dd>Kampung Gusi<small>Jalan Kinarut, 89600 Papar, Sabah</small></dd></div>
         </dl>
 
-        <div class="count" id="count" hidden aria-label="Kiraan detik ke hari majlis">
-          <div><b id="c-d">0</b><span>Hari lagi</span></div>
+        <div class="cal" aria-label="28 November 2026, Sabtu">
+          <div class="top">NOV 2026</div>
+          <div class="day">28</div>
+          <div class="wd">Sabtu</div>
+          <div class="left" id="c-left" hidden><b id="c-d">0</b> hari lagi</div>
         </div>
 
         <div class="btns">
@@ -312,10 +318,10 @@
   var target = new Date("2026-11-28T09:00:00+08:00");
   function tick() {
     var ms = target - new Date();
-    if (ms <= 0) { $("count").hidden = true; return false; }
+    if (ms <= 0) { $("c-left").hidden = true; return false; }
     var s = Math.floor(ms / 1000);
     $("c-d").textContent = Math.ceil(s / 86400);
-    $("count").hidden = false;
+    $("c-left").hidden = false;
     return true;
   }
   if (tick()) setInterval(tick, 60000);
