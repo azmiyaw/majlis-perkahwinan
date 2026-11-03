@@ -58,7 +58,7 @@
   }
   #gate.done { opacity: 0; visibility: hidden; }
   /* Sampul surat: an ivory envelope addressed with the couple's names, lined with potong wajik and closed with a maroon wax seal. */
-  .env { position: relative; width: min(340px, 88vw); aspect-ratio: 3 / 2; margin: 4px auto 22px; perspective: 900px; }
+  .env { position: relative; width: min(400px, 92vw); aspect-ratio: 3 / 2; margin: 0 auto; perspective: 900px; }
   .env > * { position: absolute; }
   .env-back { inset: 0; background: var(--card) var(--batik); border: 1px solid #c9a35a; box-shadow: 0 16px 34px rgba(0,0,0,.55); }
   .letter { left: 6%; right: 6%; top: 5%; height: 90%; z-index: 2; background: var(--ivory); color: var(--card); display: grid; align-content: start; justify-items: center; gap: 2px; padding-top: 9%; box-shadow: 0 6px 16px rgba(0,0,0,.35); transition: transform 1s cubic-bezier(.3, .7, .3, 1) .75s; }
@@ -67,9 +67,9 @@
   .letter .l2 { font-family: var(--script); font-size: 2.1rem; line-height: 1.25; }
   .letter .l3 { font-family: var(--sans); font-size: .7rem; letter-spacing: .2em; }
   .env-front { inset: 0; width: 100%; height: 100%; z-index: 3; }
-  .env-names { left: 0; right: 0; bottom: 9%; z-index: 4; margin: 0; font-family: var(--script); font-weight: 400; font-size: clamp(1.9rem, 8.5vw, 2.3rem); line-height: 1; color: var(--card); transition: opacity .3s ease; }
+  .env-names { left: 0; right: 0; bottom: 9%; z-index: 4; margin: 0; font-family: var(--script); font-weight: 400; font-size: clamp(2.1rem, 9.5vw, 2.7rem); line-height: 1; color: var(--card); transition: opacity .3s ease; }
   .env-flap { left: 0; top: 0; width: 100%; height: 50%; z-index: 5; transform-origin: top center; transition: transform .7s ease .25s, z-index 0s linear .55s; }
-  .seal { left: calc(50% - 28px); top: calc(50% - 28px); width: 56px; height: 56px; z-index: 6; border: 0; border-radius: 50%; cursor: pointer; padding: 0;
+  .seal { left: calc(50% - 31px); top: calc(50% - 31px); width: 62px; height: 62px; z-index: 6; border: 0; border-radius: 50%; cursor: pointer; padding: 0;
     background: radial-gradient(circle at 35% 30%, #93324a, #5a1426 58%, #3b0a14); color: var(--gold);
     font-family: var(--sans); font-weight: 500; font-size: .66rem; letter-spacing: .18em; padding-left: .18em; text-transform: uppercase;
     box-shadow: 0 3px 8px rgba(0,0,0,.45), inset 0 0 0 3px rgba(220,185,110,.55); transition: transform .35s ease, opacity .35s ease; }
@@ -83,8 +83,10 @@
     .seal { animation: sealPulse 2.2s ease-out infinite; }
     @keyframes sealPulse { 0% { box-shadow: 0 3px 8px rgba(0,0,0,.45), inset 0 0 0 3px rgba(220,185,110,.55), 0 0 0 0 rgba(220,185,110,.55); } 70%, 100% { box-shadow: 0 3px 8px rgba(0,0,0,.45), inset 0 0 0 3px rgba(220,185,110,.55), 0 0 0 18px rgba(220,185,110,0); } }
   }
-  #gate .eyebrow { transition: opacity .3s ease; }
-  #gate.opening .eyebrow { opacity: 0; }
+  #gate .eyebrow { margin-bottom: 8px; }
+  .gate-date { margin: 0 0 26px; font-family: var(--sans); font-weight: 400; font-size: .8rem; letter-spacing: .32em; padding-left: .32em; color: var(--gold); }
+  #gate .eyebrow, .gate-date { transition: opacity .3s ease; }
+  #gate.opening .eyebrow, #gate.opening .gate-date { opacity: 0; }
   .gate-frame { position: relative; background: var(--card); border: 1px solid rgba(220,185,110,.35); padding: 60px clamp(20px, 7vw, 48px); max-width: 420px; width: 100%; }
   .eyebrow { font-family: var(--sans); font-weight: 300; font-size: .75rem; letter-spacing: .32em; text-transform: uppercase; color: var(--mist); margin: 0 0 18px; }
   .gate-names { font-family: var(--script); font-weight: 400; color: var(--gold); font-size: clamp(2.3rem, 11vw, 3.2rem); line-height: 1.4; margin: 0 0 10px; text-wrap: balance; background: linear-gradient(110deg, var(--gold) 0%, var(--gold) 42%, #fff3cf 50%, var(--gold) 58%, var(--gold) 100%) 120% 0 / 250% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 3px 4px rgba(0,0,0,.55)) drop-shadow(0 0 10px rgba(220,185,110,.3)); }
@@ -202,6 +204,7 @@
 <!-- Step 1: gate. Nothing else is visible until "Buka Jemputan" is pressed. -->
 <div id="gate">
   <p class="eyebrow">Walimatulurus</p>
+  <p class="gate-date">28 . 11 . 2026</p>
   <div class="env">
     <div class="env-back"></div>
     <div class="letter" aria-hidden="true"><span class="l1">Jemputan</span><span class="l2">Azmi &amp; Azira</span><span class="l3">28 . 11 . 2026</span></div>
