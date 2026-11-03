@@ -1,7 +1,7 @@
 // Paste your Google Apps Script web app URL between the quotes after setup (see README.md).
 // Leave it empty to run in demo mode: wishes are then saved in this browser only.
 window.WEDDING_CONFIG = {
-  API_URL: "",
+  API_URL: "https://script.google.com/macros/s/AKfycbwAjIHAK_2IWPRf4oUqao_cRWYXagRruiyTXzLSyIEYtHCSLBSTmIzK3O0XxIzCNLfPXQ/exec",
   POLL_SECONDS: 20,
   MAX_HEADCOUNT: 10,
   MAX_WISH_LENGTH: 300
