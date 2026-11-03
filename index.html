@@ -71,23 +71,20 @@
   .env-flap { left: 0; top: 0; width: 100%; height: 50%; z-index: 5; transform-origin: top center; transition: transform .7s ease .25s, z-index 0s linear .55s; }
   .seal { left: calc(50% - 28px); top: calc(50% - 28px); width: 56px; height: 56px; z-index: 6; border: 0; border-radius: 50%; cursor: pointer; padding: 0;
     background: radial-gradient(circle at 35% 30%, #93324a, #5a1426 58%, #3b0a14); color: var(--gold);
-    font-family: var(--names); font-style: italic; font-weight: 600; font-size: .95rem;
+    font-family: var(--sans); font-weight: 500; font-size: .66rem; letter-spacing: .18em; padding-left: .18em; text-transform: uppercase;
     box-shadow: 0 3px 8px rgba(0,0,0,.45), inset 0 0 0 3px rgba(220,185,110,.55); transition: transform .35s ease, opacity .35s ease; }
   .seal:hover { transform: scale(1.06); }
   #gate.opening .seal { opacity: 0; transform: scale(.6); pointer-events: none; }
   #gate.opening .env-names { opacity: 0; }
   #gate.opening .env-flap { transform: rotateX(180deg); z-index: 1; }
   #gate.opening .letter { transform: translateY(-62%); }
-  /* The seal is the only way in: it pulses gently, with a small "Buka" hint under the envelope. */
-  .tap-hint { margin: -6px 0 16px; font-family: var(--sans); font-weight: 400; font-size: .74rem; letter-spacing: .4em; padding-left: .4em; text-transform: uppercase; color: var(--gold); }
+  /* The seal is the only way in: it reads "Buka" and pulses gently. */
   @media (prefers-reduced-motion: no-preference) {
     .seal { animation: sealPulse 2.2s ease-out infinite; }
     @keyframes sealPulse { 0% { box-shadow: 0 3px 8px rgba(0,0,0,.45), inset 0 0 0 3px rgba(220,185,110,.55), 0 0 0 0 rgba(220,185,110,.55); } 70%, 100% { box-shadow: 0 3px 8px rgba(0,0,0,.45), inset 0 0 0 3px rgba(220,185,110,.55), 0 0 0 18px rgba(220,185,110,0); } }
-    .tap-hint { animation: hintFade 2.2s ease-in-out infinite; }
-    @keyframes hintFade { 50% { opacity: .45; } }
   }
-  #gate .eyebrow, #gate .gate-line, #gate .tap-hint { transition: opacity .3s ease; }
-  #gate.opening .eyebrow, #gate.opening .gate-line, #gate.opening .tap-hint { opacity: 0; animation: none; }
+  #gate .eyebrow { transition: opacity .3s ease; }
+  #gate.opening .eyebrow { opacity: 0; }
   .gate-frame { position: relative; background: var(--card); border: 1px solid rgba(220,185,110,.35); padding: 60px clamp(20px, 7vw, 48px); max-width: 420px; width: 100%; }
   .eyebrow { font-family: var(--sans); font-weight: 300; font-size: .75rem; letter-spacing: .32em; text-transform: uppercase; color: var(--mist); margin: 0 0 18px; }
   .gate-names { font-family: var(--script); font-weight: 400; color: var(--gold); font-size: clamp(2.3rem, 11vw, 3.2rem); line-height: 1.4; margin: 0 0 10px; text-wrap: balance; background: linear-gradient(110deg, var(--gold) 0%, var(--gold) 42%, #fff3cf 50%, var(--gold) 58%, var(--gold) 100%) 120% 0 / 250% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 3px 4px rgba(0,0,0,.55)) drop-shadow(0 0 10px rgba(220,185,110,.3)); }
@@ -211,10 +208,8 @@
     <svg class="env-front" viewBox="0 0 300 200" preserveAspectRatio="none" aria-hidden="true"><path d="M0,0 L150,100 L300,0 L300,200 L0,200Z" fill="#f3e7cf" stroke="#c9a35a" stroke-width="1.4" vector-effect="non-scaling-stroke"/><path d="M0,200 L124,86 M300,200 L176,86" fill="none" stroke="#c9a35a" stroke-opacity=".5" stroke-width="1" vector-effect="non-scaling-stroke"/></svg>
     <h1 class="env-names">Azmi &amp; Azira</h1>
     <svg class="env-flap" viewBox="0 0 300 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0,0 L300,0 L150,99Z" fill="#ead9b6" stroke="#c9a35a" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg>
-    <button type="button" class="seal" id="open-btn" aria-label="Buka jemputan">A&amp;A</button>
+    <button type="button" class="seal" id="open-btn" aria-label="Buka jemputan">Buka</button>
   </div>
-  <p class="tap-hint" aria-hidden="true">Buka</p>
-  <p class="gate-line">Anda dijemput</p>
 </div>
 <noscript><style>#gate { display: none; } #site { opacity: 1; }</style></noscript>
 <canvas id="petals" aria-hidden="true"></canvas>
