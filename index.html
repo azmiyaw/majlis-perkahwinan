@@ -124,26 +124,26 @@
   .muted { color: var(--mist); }
   .it { font-style: italic; }
 
-  .card { position: relative; background: var(--card); border: 1px solid rgba(220,185,110,.35); padding: 64px clamp(20px, 7vw, 52px) 60px; margin-block: 8px; }
+  .card { position: relative; background: var(--card); border: 1px solid rgba(220,185,110,.35); padding: 64px clamp(18px, 5.5vw, 52px) 60px; margin-block: 8px; font-size: 17px; }
   /* Bucu: gold corner ornaments on the welcome frame, invitation card and the RSVP, contact and footer panels. */
   .card::before, .gate-frame::before, #rsvp .wrap::before, #contact .wrap::before, footer .wrap::before { content: ""; position: absolute; inset: 8px; pointer-events: none; background: var(--bucu); }
-  .parents { font-size: clamp(1.55rem, 6.6vw, 1.85rem); font-weight: 600; letter-spacing: .02em; line-height: 1.3; margin: 22px 0; }
+  .parents { font-size: clamp(1.3rem, 5.6vw, 1.6rem); font-weight: 600; letter-spacing: .02em; line-height: 1.3; margin: 22px 0; }
   .amp { display: block; color: var(--gold); font-style: italic; font-weight: 400; font-size: 1.1rem; }
   .rule { width: 72px; height: 1px; background: var(--gold); margin: 34px auto; border: 0; position: relative; }
   .rule::after { content: ""; position: absolute; left: 50%; top: -3px; width: 7px; height: 7px; background: var(--gold); transform: translateX(-50%) rotate(45deg); }
-  .couple .full { display: block; font-family: var(--names); font-style: italic; font-weight: 500; color: var(--gold); font-size: clamp(1.5rem, 6.4vw, 1.9rem); line-height: 1.3; text-wrap: balance; }
-  .couple .and { display: block; font-style: italic; font-size: 1.5rem; margin: 12px 0; }
+  .couple .full { display: block; font-family: var(--names); font-style: italic; font-weight: 500; color: var(--gold); font-size: clamp(1.2rem, 5.4vw, 1.6rem); line-height: 1.3; text-wrap: balance; }
+  .couple .and { display: block; font-style: italic; font-size: 1.25rem; margin: 10px 0; }
 
   .details { display: grid; gap: 20px; margin: 0; }
   .details dt { font-family: var(--sans); font-weight: 300; font-size: .72rem; letter-spacing: .24em; text-transform: uppercase; color: var(--mist); }
-  .details dd { margin: 2px 0 0; font-size: 1.45rem; font-weight: 600; text-wrap: balance; }
+  .details dd { margin: 2px 0 0; font-size: 1.25rem; font-weight: 600; text-wrap: balance; }
   .aturcara-label { margin-top: 40px; }
   .aturcara { display: grid; gap: 0; margin: 0 auto; max-width: 340px; }
   .aturcara div { display: grid; gap: 2px; text-align: center; padding: 14px 0; border-top: 1px solid rgba(220,185,110,.3); }
   .aturcara div:last-child { border-bottom: 1px solid rgba(220,185,110,.3); }
   .aturcara dt { font-family: var(--sans); font-weight: 400; font-size: .82rem; letter-spacing: .06em; color: var(--gold); }
-  .aturcara dd { margin: 0; font-size: 1.3rem; font-weight: 600; }
-  .details dd small { display: block; font-weight: 400; font-size: 1.05rem; }
+  .aturcara dd { margin: 0; font-size: 1.15rem; font-weight: 600; }
+  .details dd small { display: block; font-weight: 400; font-size: .95rem; }
 
   .btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 26px; }
   .scroll-hint { display: inline-flex; align-items: center; gap: 10px; margin-top: 36px; padding: 13px 26px; font-family: var(--sans); font-weight: 400; font-size: .76rem; letter-spacing: .24em; text-transform: uppercase; color: var(--ground); background: var(--gold); border: 1px solid var(--gold); text-decoration: none; box-shadow: 0 6px 18px rgba(0,0,0,.5), 0 0 0 6px rgba(59,10,20,.85); }
