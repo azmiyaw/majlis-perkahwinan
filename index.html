@@ -40,12 +40,22 @@
 
   /* ---------- Gate ---------- */
   #gate {
-    position: fixed; inset: 0; z-index: 50; background: var(--ground) var(--batik);
+    position: fixed; inset: 0; z-index: 50; perspective: 1600px; overflow: hidden;
     display: grid; align-content: center; justify-items: center; text-align: center;
     padding: 24px max(16px, env(safe-area-inset-left, 0px));
-    transition: opacity .9s ease, transform .9s ease, visibility .9s;
   }
-  #gate.leaving { opacity: 0; transform: translateY(-24px); visibility: hidden; }
+  /* Pintu gerbang: two palace doors that swing open when the guest taps "Buka Jemputan". */
+  .door { position: absolute; top: 0; bottom: 0; width: 50%; background: var(--ground) var(--batik); backface-visibility: hidden; transition: transform 1.4s cubic-bezier(.6, .05, .3, 1) .35s; }
+  .door::before { content: ""; position: absolute; inset: 14px; border: 1px solid rgba(220,185,110,.45); }
+  .door::after { content: ""; position: absolute; top: calc(50% - 8px); width: 16px; height: 16px; background: var(--gold); transform: rotate(45deg); box-shadow: 0 0 10px rgba(220,185,110,.6); }
+  .door.l { left: 0; transform-origin: left center; border-right: 2px solid var(--gold); }
+  .door.r { right: 0; transform-origin: right center; border-left: 2px solid var(--gold); }
+  .door.l::before { right: 8px; } .door.r::before { left: 8px; }
+  .door.l::after { right: 18px; } .door.r::after { left: 18px; }
+  #gate .gate-frame { z-index: 1; transition: opacity .35s ease, transform .35s ease; }
+  #gate.opening .gate-frame { opacity: 0; transform: scale(.96); pointer-events: none; }
+  #gate.opening .door.l { transform: rotateY(-100deg); }
+  #gate.opening .door.r { transform: rotateY(100deg); }
   .gate-frame { position: relative; background: var(--card); border: 1px solid rgba(220,185,110,.35); padding: 60px clamp(20px, 7vw, 48px); max-width: 420px; width: 100%; }
   .eyebrow { font-family: var(--sans); font-weight: 300; font-size: .75rem; letter-spacing: .32em; text-transform: uppercase; color: var(--mist); margin: 0 0 18px; }
   .gate-names { font-family: var(--script); font-weight: 400; color: var(--gold); font-size: clamp(2.6rem, 13vw, 3.8rem); line-height: 1.45; margin: 0 0 14px; text-wrap: balance; text-shadow: 0 3px 6px rgba(0,0,0,.55), 0 0 18px rgba(220,185,110,.35); }
@@ -139,7 +149,7 @@
 
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    #gate, #site { transition: none; }
+    #site, .door, #gate .gate-frame { transition: none; }
   }
 </style>
 </head>
@@ -147,6 +157,8 @@
 
 <!-- Step 1: gate. Nothing else is visible until "Buka Jemputan" is pressed. -->
 <div id="gate">
+  <div class="door l" aria-hidden="true"></div>
+  <div class="door r" aria-hidden="true"></div>
   <div class="gate-frame">
     <p class="eyebrow">Walimatulurus</p>
     <h1 class="gate-names"><span class="cap">A</span>zmi <span class="amp">&amp;</span> <span class="cap">A</span>zira</h1>
@@ -288,13 +300,13 @@
     if (started) return; started = true;
     $("site").hidden = false;
     requestAnimationFrame(function () { $("site").classList.add("shown"); });
-    $("gate").classList.add("leaving");
+    $("gate").classList.add("opening");
     setTimeout(function () {
       document.body.classList.remove("locked");
       $("gate").hidden = true;
       window.scrollTo(0, 0);
       if (!reduced) startPetals();
-    }, reduced ? 0 : 900);
+    }, reduced ? 0 : 1800);
     tryMusic();
     loadWishes();
     if (API) setInterval(function () { if (!document.hidden) loadWishes(); }, (CFG.POLL_SECONDS || 20) * 1000);
