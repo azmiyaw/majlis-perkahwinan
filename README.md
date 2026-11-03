@@ -8,7 +8,7 @@ Files:
 | `config.js` | Holds the backend URL and limits |
 | `admin.html` | Password-protected RSVP list for the couple |
 | `apps-script/Code.gs` | Backend that stores RSVPs in a Google Sheet |
-| `music.mp3` | Optional. Put your own file here and the music button appears |
+| `music.m4a` | Background music (AAC). Replace it with your own file of the same name |
 
 Without a backend URL the page runs in demo mode. Wishes are saved in that browser only, which is fine for trying it out and useless for real guests.
 

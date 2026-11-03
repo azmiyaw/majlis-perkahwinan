@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Walimatulurus Azmi &amp; Azira</title>
 <meta name="theme-color" content="#3b0a14">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://azmiyaw.github.io/majlis-perkahwinan/">
+<meta property="og:title" content="Walimatulurus Azmi &amp; Azira">
+<meta property="og:description" content="Sabtu, 28 November 2026 · 9.00 pagi – 2.00 petang · Kampung Gusi, Papar, Sabah">
+<meta property="og:image" content="https://azmiyaw.github.io/majlis-perkahwinan/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Jemputan walimatulurus Azmi &amp; Azira">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="description"content="Jemputan majlis walimatulurus Muhammad Azmi dan Noor Azira, 28 November 2026, Papar, Sabah.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -205,7 +214,8 @@
         </dl>
 
         <div class="btns">
-          <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Kampung+Gusi+Jalan+Kinarut+89600+Papar+Sabah" target="_blank" rel="noopener">Lihat Peta</a>
+          <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Kampung+Gusi+Jalan+Kinarut+89600+Papar+Sabah" target="_blank" rel="noopener">Google Maps</a>
+          <a class="btn" href="https://waze.com/ul?q=Kampung%20Gusi%20Jalan%20Kinarut%20Papar%20Sabah&amp;navigate=yes" target="_blank" rel="noopener">Waze</a>
           <a class="btn alt" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Walimatulurus+Azmi+%26+Azira&dates=20261128T010000Z/20261128T060000Z&location=Kampung+Gusi%2C+Jalan+Kinarut%2C+89600+Papar%2C+Sabah" target="_blank" rel="noopener">Simpan Tarikh</a>
         </div>
 
@@ -289,7 +299,7 @@
   </footer>
 </div>
 
-<audio id="bgm" loop preload="none" src="music.mp3"></audio>
+<audio id="bgm" loop preload="none" src="music.m4a"></audio>
 <button type="button" id="music" hidden aria-label="Mainkan muzik" aria-pressed="false">Muzik</button>
 
 <script src="config.js"></script>
@@ -322,7 +332,7 @@
     if (API) setInterval(function () { if (!document.hidden) loadWishes(); }, (CFG.POLL_SECONDS || 20) * 1000);
   });
 
-  /* ---------- Music (optional: put music.mp3 next to index.html) ---------- */
+  /* ---------- Music (optional: put music.m4a next to index.html) ---------- */
   var bgm = $("bgm"), mbtn = $("music");
   function setMusicUI(on) { mbtn.setAttribute("aria-pressed", on ? "true" : "false"); mbtn.textContent = on ? "Jeda" : "Muzik"; mbtn.setAttribute("aria-label", on ? "Jeda muzik" : "Mainkan muzik"); }
   // Called straight from the "Buka Jemputan" click, so browsers count it as user-started and allow sound.
