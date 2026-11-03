@@ -118,9 +118,10 @@
   @keyframes wishIn { 0% { opacity: 0; transform: translateX(-16px); } 35% { opacity: 1; transform: none; box-shadow: 0 0 0 1px var(--gold), 0 0 22px rgba(220,185,110,.55); } 100% { box-shadow: none; } }
   @media (prefers-reduced-motion: reduce) { .rv { opacity: 1; transform: none; transition: none; } .wish.fresh { animation: none; } }
   .wish { padding: 14px 16px; border: 1px solid rgba(220,185,110,.4); background: var(--ground); margin-bottom: 10px; overflow-wrap: anywhere; }
-  .wish .who { font-weight: 600; font-size: 1.15rem; color: var(--gold); }
-  .wish .meta { font-family: var(--sans); font-weight: 300; font-size: .72rem; letter-spacing: .08em; color: var(--mist); margin-left: 8px; }
-  .wish .text { margin: 4px 0 0; white-space: pre-wrap; }
+  .wish { margin: 0 0 10px; text-align: center; }
+  .wish .who { display: block; margin-top: 8px; font-family: var(--sans); font-weight: 400; font-size: .74rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); }
+  .wish .text { margin: 0; font-style: italic; font-size: 1.2rem; line-height: 1.5; white-space: pre-wrap; }
+  .wish .text::before { content: "“"; } .wish .text::after { content: "”"; }
   .wishes-empty { text-align: center; color: var(--mist); font-style: italic; }
   #all-wishes { max-height: 360px; overflow-y: auto; padding-right: 4px; margin-top: 4px; -webkit-overflow-scrolling: touch; }
   #toggle-all { display: block; margin: 8px auto 0; }
@@ -396,20 +397,12 @@
       .then(function (d) { if (!d.ok) throw new Error(d.error || "send"); entry.ts = new Date().toISOString(); return entry; });
   }
 
-  function fmtTime(ts) {
-    var d = new Date(ts);
-    if (isNaN(d)) return "";
-    try { return d.toLocaleString("ms-MY", { day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "2-digit" }); }
-    catch (e) { return d.toLocaleString(); }
-  }
   // All guest text goes in through textContent, never innerHTML.
   function wishEl(w) {
-    var box = document.createElement("div"); box.className = "wish";
-    var who = document.createElement("span"); who.className = "who"; who.textContent = w.name;
-    var meta = document.createElement("span"); meta.className = "meta";
-    meta.textContent = w.headcount + " orang · " + fmtTime(w.ts);
-    var txt = document.createElement("p"); txt.className = "text"; txt.textContent = w.wish;
-    box.appendChild(who); box.appendChild(meta); box.appendChild(txt);
+    var box = document.createElement("figure"); box.className = "wish";
+    var txt = document.createElement("blockquote"); txt.className = "text"; txt.textContent = w.wish;
+    var who = document.createElement("figcaption"); who.className = "who"; who.textContent = "\u2014 " + w.name + " \u2014";
+    box.appendChild(txt); box.appendChild(who);
     return box;
   }
   var seen = null;
