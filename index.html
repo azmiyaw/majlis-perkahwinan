@@ -57,27 +57,37 @@
     transition: opacity .6s ease, visibility .6s;
   }
   #gate.done { opacity: 0; visibility: hidden; }
-  /* Sampul surat: a sealed envelope; the seal or button opens the flap and the letter slides out. */
-  .env { position: relative; width: min(320px, 84vw); aspect-ratio: 3 / 2; margin: 6px auto 26px; perspective: 900px; }
+  /* Sampul surat: an ivory envelope addressed with the couple's names, lined with potong wajik and closed with a maroon wax seal. */
+  .env { position: relative; width: min(340px, 88vw); aspect-ratio: 3 / 2; margin: 4px auto 22px; perspective: 900px; }
   .env > * { position: absolute; }
-  .env-back { inset: 0; background: #3f0c18; border: 1px solid var(--gold-soft); box-shadow: 0 14px 30px rgba(0,0,0,.5); }
+  .env-back { inset: 0; background: var(--card) var(--batik); border: 1px solid #c9a35a; box-shadow: 0 16px 34px rgba(0,0,0,.55); }
   .letter { left: 6%; right: 6%; top: 5%; height: 90%; z-index: 2; background: var(--ivory); color: var(--card); display: grid; align-content: start; justify-items: center; gap: 2px; padding-top: 9%; box-shadow: 0 6px 16px rgba(0,0,0,.35); transition: transform 1s cubic-bezier(.3, .7, .3, 1) .75s; }
   .letter::before { content: ""; position: absolute; inset: 6px; border: 1px solid var(--gold-soft); }
   .letter .l1 { font-family: var(--sans); font-size: .6rem; letter-spacing: .3em; text-transform: uppercase; color: var(--gold-soft); }
   .letter .l2 { font-family: var(--script); font-size: 2.1rem; line-height: 1.25; }
   .letter .l3 { font-family: var(--sans); font-size: .7rem; letter-spacing: .2em; }
   .env-front { inset: 0; width: 100%; height: 100%; z-index: 3; }
-  .env-flap { left: 0; top: 0; width: 100%; height: 60%; z-index: 4; transform-origin: top center; transition: transform .7s ease .25s, z-index 0s linear .55s; }
-  .seal { left: calc(50% - 29px); top: calc(60% - 29px); width: 58px; height: 58px; z-index: 5; border: 0; border-radius: 50%; cursor: pointer; padding: 0;
-    background: radial-gradient(circle at 35% 30%, #f3d68f, var(--gold) 55%, #a8803c); color: var(--card);
-    font-family: var(--names); font-style: italic; font-weight: 600; font-size: 1rem;
-    box-shadow: 0 3px 8px rgba(0,0,0,.45), inset 0 0 0 3px rgba(122,82,28,.35); transition: transform .35s ease, opacity .35s ease; }
+  .env-names { left: 0; right: 0; bottom: 9%; z-index: 4; margin: 0; font-family: var(--script); font-weight: 400; font-size: clamp(1.9rem, 8.5vw, 2.3rem); line-height: 1; color: var(--card); transition: opacity .3s ease; }
+  .env-flap { left: 0; top: 0; width: 100%; height: 50%; z-index: 5; transform-origin: top center; transition: transform .7s ease .25s, z-index 0s linear .55s; }
+  .seal { left: calc(50% - 28px); top: calc(50% - 28px); width: 56px; height: 56px; z-index: 6; border: 0; border-radius: 50%; cursor: pointer; padding: 0;
+    background: radial-gradient(circle at 35% 30%, #93324a, #5a1426 58%, #3b0a14); color: var(--gold);
+    font-family: var(--names); font-style: italic; font-weight: 600; font-size: .95rem;
+    box-shadow: 0 3px 8px rgba(0,0,0,.45), inset 0 0 0 3px rgba(220,185,110,.55); transition: transform .35s ease, opacity .35s ease; }
   .seal:hover { transform: scale(1.06); }
-  #gate .eyebrow, #gate .gate-names, #gate .gate-line, #gate #open-btn { transition: opacity .3s ease; }
-  #gate.opening .eyebrow, #gate.opening .gate-names, #gate.opening .gate-line, #gate.opening #open-btn { opacity: 0; pointer-events: none; }
   #gate.opening .seal { opacity: 0; transform: scale(.6); pointer-events: none; }
+  #gate.opening .env-names { opacity: 0; }
   #gate.opening .env-flap { transform: rotateX(180deg); z-index: 1; }
   #gate.opening .letter { transform: translateY(-62%); }
+  /* The seal is the only way in: it pulses gently, with a small "Buka" hint under the envelope. */
+  .tap-hint { margin: -6px 0 16px; font-family: var(--sans); font-weight: 400; font-size: .74rem; letter-spacing: .4em; padding-left: .4em; text-transform: uppercase; color: var(--gold); }
+  @media (prefers-reduced-motion: no-preference) {
+    .seal { animation: sealPulse 2.2s ease-out infinite; }
+    @keyframes sealPulse { 0% { box-shadow: 0 3px 8px rgba(0,0,0,.45), inset 0 0 0 3px rgba(220,185,110,.55), 0 0 0 0 rgba(220,185,110,.55); } 70%, 100% { box-shadow: 0 3px 8px rgba(0,0,0,.45), inset 0 0 0 3px rgba(220,185,110,.55), 0 0 0 18px rgba(220,185,110,0); } }
+    .tap-hint { animation: hintFade 2.2s ease-in-out infinite; }
+    @keyframes hintFade { 50% { opacity: .45; } }
+  }
+  #gate .eyebrow, #gate .gate-line, #gate .tap-hint { transition: opacity .3s ease; }
+  #gate.opening .eyebrow, #gate.opening .gate-line, #gate.opening .tap-hint { opacity: 0; animation: none; }
   .gate-frame { position: relative; background: var(--card); border: 1px solid rgba(220,185,110,.35); padding: 60px clamp(20px, 7vw, 48px); max-width: 420px; width: 100%; }
   .eyebrow { font-family: var(--sans); font-weight: 300; font-size: .75rem; letter-spacing: .32em; text-transform: uppercase; color: var(--mist); margin: 0 0 18px; }
   .gate-names { font-family: var(--script); font-weight: 400; color: var(--gold); font-size: clamp(2.3rem, 11vw, 3.2rem); line-height: 1.4; margin: 0 0 10px; text-wrap: balance; background: linear-gradient(110deg, var(--gold) 0%, var(--gold) 42%, #fff3cf 50%, var(--gold) 58%, var(--gold) 100%) 120% 0 / 250% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 3px 4px rgba(0,0,0,.55)) drop-shadow(0 0 10px rgba(220,185,110,.3)); }
@@ -195,16 +205,16 @@
 <!-- Step 1: gate. Nothing else is visible until "Buka Jemputan" is pressed. -->
 <div id="gate">
   <p class="eyebrow">Walimatulurus</p>
-  <h1 class="gate-names"><span class="cap">A</span>zmi <span class="amp">&amp;</span> <span class="cap">A</span>zira</h1>
   <div class="env">
     <div class="env-back"></div>
     <div class="letter" aria-hidden="true"><span class="l1">Jemputan</span><span class="l2">Azmi &amp; Azira</span><span class="l3">28 . 11 . 2026</span></div>
-    <svg class="env-front" viewBox="0 0 300 200" preserveAspectRatio="none" aria-hidden="true"><path d="M0,0 L150,112 L300,0 L300,200 L0,200Z" fill="#5a1426" stroke="#dcb96e" stroke-width="1.2" vector-effect="non-scaling-stroke"/><path d="M0,200 L128,96 M300,200 L172,96" fill="none" stroke="#dcb96e" stroke-opacity=".45" stroke-width="1" vector-effect="non-scaling-stroke"/></svg>
-    <svg class="env-flap" viewBox="0 0 300 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0,0 L300,0 L150,118Z" fill="#661a2e" stroke="#dcb96e" stroke-width="1.2" vector-effect="non-scaling-stroke"/></svg>
-    <button type="button" class="seal" id="seal-btn" aria-label="Buka jemputan">A&amp;A</button>
+    <svg class="env-front" viewBox="0 0 300 200" preserveAspectRatio="none" aria-hidden="true"><path d="M0,0 L150,100 L300,0 L300,200 L0,200Z" fill="#f3e7cf" stroke="#c9a35a" stroke-width="1.4" vector-effect="non-scaling-stroke"/><path d="M0,200 L124,86 M300,200 L176,86" fill="none" stroke="#c9a35a" stroke-opacity=".5" stroke-width="1" vector-effect="non-scaling-stroke"/></svg>
+    <h1 class="env-names">Azmi &amp; Azira</h1>
+    <svg class="env-flap" viewBox="0 0 300 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0,0 L300,0 L150,99Z" fill="#ead9b6" stroke="#c9a35a" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg>
+    <button type="button" class="seal" id="open-btn" aria-label="Buka jemputan">A&amp;A</button>
   </div>
+  <p class="tap-hint" aria-hidden="true">Buka</p>
   <p class="gate-line">Anda dijemput</p>
-  <button type="button" class="btn" id="open-btn">Buka Jemputan</button>
 </div>
 <noscript><style>#gate { display: none; } #site { opacity: 1; }</style></noscript>
 <canvas id="petals" aria-hidden="true"></canvas>
@@ -360,7 +370,6 @@
     loadWishes();
     if (API) setInterval(function () { if (!document.hidden) loadWishes(); }, (CFG.POLL_SECONDS || 20) * 1000);
   });
-  $("seal-btn").addEventListener("click", function () { $("open-btn").click(); });
 
   /* ---------- Music (optional: put music.m4a next to index.html) ---------- */
   var bgm = $("bgm"), mbtn = $("music");
