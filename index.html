@@ -54,11 +54,11 @@
     position: fixed; inset: 0; z-index: 50; overflow-y: auto; background: var(--ground);
     display: grid; align-content: safe center; justify-items: center; text-align: center;
     padding: 24px max(16px, env(safe-area-inset-left, 0px));
-    transition: opacity .6s ease, visibility .6s;
+    transition: opacity .8s ease, visibility .8s;
   }
   #gate.done { opacity: 0; visibility: hidden; }
   /* Sampul surat: an ivory envelope addressed with the couple's names, lined with potong wajik and closed with a maroon wax seal. */
-  .env { position: relative; width: min(400px, 92vw); aspect-ratio: 3 / 2; margin: 0 auto; perspective: 900px; }
+  .env { position: relative; width: min(400px, 92vw); aspect-ratio: 3 / 2; margin: 0 auto; transform-origin: 50% -6%; transition: transform 1.1s cubic-bezier(.6, 0, .3, 1); perspective: 900px; }
   .env > * { position: absolute; }
   .env-back { inset: 0; background: var(--card) var(--batik); border: 1px solid #c9a35a; box-shadow: 0 16px 34px rgba(0,0,0,.55); }
   .letter { left: 6%; right: 6%; top: 5%; height: 90%; z-index: 2; background: var(--ivory); color: var(--card); display: grid; align-content: start; justify-items: center; gap: 2px; padding-top: 9%; box-shadow: 0 6px 16px rgba(0,0,0,.35); transition: transform 1s cubic-bezier(.3, .7, .3, 1) .75s; }
@@ -78,6 +78,9 @@
   #gate.opening .env-names { opacity: 0; }
   #gate.opening .env-flap { transform: rotateX(180deg); z-index: 1; }
   #gate.opening .letter { transform: translateY(-62%); }
+  /* Once the letter is out, zoom into it and cross-fade to the invitation. */
+  #gate.zoom { overflow: hidden; }
+  #gate.zoom .env { transform: scale(3.4); }
   /* The seal is the only way in: it reads "Buka" and pulses gently. */
   @media (prefers-reduced-motion: no-preference) {
     .seal { animation: sealPulse 2.2s ease-out infinite; }
@@ -107,8 +110,8 @@
   a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 2px solid var(--ivory); outline-offset: 3px; }
 
   /* ---------- Sections ---------- */
-  #site { opacity: 0; transition: opacity 1s ease .2s; }
-  #site.shown { opacity: 1; }
+  #site { opacity: 0; transform: scale(1.04); transition: opacity .9s ease, transform 1.3s cubic-bezier(.2, .7, .2, 1); }
+  #site.shown { opacity: 1; transform: none; }
   section { padding-block: 72px; text-align: center; }
   section + section { border-top: 1px solid rgba(214,181,106,.25); }
   .label { font-family: var(--sans); font-weight: 400; font-size: .8rem; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); margin: 0 0 24px; }
@@ -355,15 +358,15 @@
     if (started) return; started = true;
     $("site").hidden = false;
     setupReveal();
-    requestAnimationFrame(function () { $("site").classList.add("shown"); });
     $("gate").classList.add("opening");
-    setTimeout(function () { $("gate").classList.add("done"); }, reduced ? 0 : 1900);
+    setTimeout(function () { $("gate").classList.add("zoom"); }, reduced ? 0 : 1700);
+    setTimeout(function () { $("gate").classList.add("done"); $("site").classList.add("shown"); }, reduced ? 0 : 2500);
     setTimeout(function () {
       document.body.classList.remove("locked");
       $("gate").hidden = true;
       window.scrollTo(0, 0);
       if (!reduced) startPetals();
-    }, reduced ? 0 : 2500);
+    }, reduced ? 0 : 3350);
     tryMusic();
     loadWishes();
     if (API) setInterval(function () { if (!document.hidden) loadWishes(); }, (CFG.POLL_SECONDS || 20) * 1000);
