@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Walimatulurus Azmi &amp; Azira</title>
 <meta name="theme-color" content="#3b0a14">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://azmiyaw.github.io/majlis-perkahwinan/">
 <meta property="og:title" content="Walimatulurus Azmi &amp; Azira">
@@ -416,7 +418,7 @@
     }
     return fetch(API, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(entry) })
       .then(function (r) { return r.json(); })
-      .then(function (d) { if (!d.ok) throw new Error(d.error || "send"); entry.ts = new Date().toISOString(); return entry; });
+      .then(function (d) { if (!d.ok) throw new Error(d.error || "send"); entry.ts = new Date().toISOString(); entry.duplicate = !!d.duplicate; return entry; });
   }
 
   // All guest text goes in through textContent, never innerHTML.
@@ -487,7 +489,7 @@
 
     busy = true; $("submit-btn").disabled = true; status.textContent = "Menghantar...";
     sendEntry({ name: name, headcount: count, wish: wish }).then(function (entry) {
-      wishes.push({ name: name, headcount: count, wish: wish, ts: entry.ts });
+      if (!entry.duplicate) wishes.push({ name: name, headcount: count, wish: wish, ts: entry.ts });
       render();
       form.reset(); $("wish-count").textContent = "0 / " + MAXW;
       status.className = "ok"; status.textContent = "Terima kasih. Kehadiran dan ucapan Tuan/Puan telah diterima.";
