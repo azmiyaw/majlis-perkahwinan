@@ -324,13 +324,14 @@
   /* ---------- Music (optional: put music.mp3 next to index.html) ---------- */
   var bgm = $("bgm"), mbtn = $("music");
   function setMusicUI(on) { mbtn.setAttribute("aria-pressed", on ? "true" : "false"); mbtn.textContent = on ? "Jeda" : "Muzik"; mbtn.setAttribute("aria-label", on ? "Jeda muzik" : "Mainkan muzik"); }
+  // Called straight from the "Buka Jemputan" click, so browsers count it as user-started and allow sound.
   function tryMusic() {
-    fetch("music.mp3", { method: "HEAD" }).then(function (r) {
-      if (!r.ok) return;
-      mbtn.hidden = false;
-      bgm.play().then(function () { setMusicUI(true); }).catch(function () { setMusicUI(false); });
-    }).catch(function () {});
+    var p = bgm.play();
+    if (!p || !p.then) return;
+    p.then(function () { mbtn.hidden = false; setMusicUI(true); })
+     .catch(function (e) { if (e && e.name === "NotAllowedError") { mbtn.hidden = false; setMusicUI(false); } });
   }
+  bgm.addEventListener("error", function () { mbtn.hidden = true; });
   mbtn.addEventListener("click", function () {
     if (bgm.paused) bgm.play().then(function () { setMusicUI(true); }).catch(function () {});
     else { bgm.pause(); setMusicUI(false); }
