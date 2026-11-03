@@ -58,7 +58,8 @@
   #gate.opening .door.r { transform: rotateY(100deg); }
   .gate-frame { position: relative; background: var(--card); border: 1px solid rgba(220,185,110,.35); padding: 60px clamp(20px, 7vw, 48px); max-width: 420px; width: 100%; }
   .eyebrow { font-family: var(--sans); font-weight: 300; font-size: .75rem; letter-spacing: .32em; text-transform: uppercase; color: var(--mist); margin: 0 0 18px; }
-  .gate-names { font-family: var(--script); font-weight: 400; color: var(--gold); font-size: clamp(2.6rem, 13vw, 3.8rem); line-height: 1.45; margin: 0 0 14px; text-wrap: balance; text-shadow: 0 3px 6px rgba(0,0,0,.55), 0 0 18px rgba(220,185,110,.35); }
+  .gate-names { font-family: var(--script); font-weight: 400; color: var(--gold); font-size: clamp(2.6rem, 13vw, 3.8rem); line-height: 1.45; margin: 0 0 14px; text-wrap: balance; background: linear-gradient(110deg, var(--gold) 0%, var(--gold) 42%, #fff3cf 50%, var(--gold) 58%, var(--gold) 100%) 120% 0 / 250% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 3px 4px rgba(0,0,0,.55)) drop-shadow(0 0 10px rgba(220,185,110,.3)); }
+  @media (prefers-reduced-motion: no-preference) { .gate-names { animation: shimmer 4.5s ease-in-out 1s infinite; } @keyframes shimmer { 0%, 55% { background-position: 120% 0; } 100% { background-position: -20% 0; } } }
   .gate-names .amp { display: block; font-size: .6em; line-height: 1; margin: -.05em 0 .1em; }
   .cap { font-size: 1.3em; line-height: 1; }
   .gate-line { font-style: italic; margin: 0 0 30px; }
@@ -109,6 +110,13 @@
   /* Solid panels keep text readable over the batik background. */
   #rsvp .wrap, #contact .wrap, footer .wrap { position: relative; background: var(--card); border: 1px solid rgba(220,185,110,.35); width: calc(100% - 32px); padding-block: 52px; padding-inline: 24px; }
   .wishes-box { text-align: left; margin-bottom: 34px; }
+  /* Reveal on scroll: only applied by script, so the page is complete without it. */
+  .rv { opacity: 0; transform: translateY(18px); transition: opacity .8s ease, transform .8s ease; }
+  .rv.in { opacity: 1; transform: none; }
+  /* A wish that arrives while the page is open slides in with a gold glow. */
+  .wish.fresh { animation: wishIn 1.4s ease-out both; }
+  @keyframes wishIn { 0% { opacity: 0; transform: translateX(-16px); } 35% { opacity: 1; transform: none; box-shadow: 0 0 0 1px var(--gold), 0 0 22px rgba(220,185,110,.55); } 100% { box-shadow: none; } }
+  @media (prefers-reduced-motion: reduce) { .rv { opacity: 1; transform: none; transition: none; } .wish.fresh { animation: none; } }
   .wish { padding: 14px 16px; border: 1px solid rgba(220,185,110,.4); background: var(--ground); margin-bottom: 10px; overflow-wrap: anywhere; }
   .wish .who { font-weight: 600; font-size: 1.15rem; color: var(--gold); }
   .wish .meta { font-family: var(--sans); font-weight: 300; font-size: .72rem; letter-spacing: .08em; color: var(--mist); margin-left: 8px; }
@@ -299,6 +307,7 @@
   $("open-btn").addEventListener("click", function () {
     if (started) return; started = true;
     $("site").hidden = false;
+    setupReveal();
     requestAnimationFrame(function () { $("site").classList.add("shown"); });
     $("gate").classList.add("opening");
     setTimeout(function () {
@@ -328,21 +337,34 @@
     else { bgm.pause(); setMusicUI(false); }
   });
 
-  /* ---------- Petals ---------- */
+  /* ---------- Reveal on scroll ---------- */
+  function setupReveal() {
+    if (reduced || !("IntersectionObserver" in window)) return;
+    var els = [].slice.call(document.querySelectorAll("#invitation .card > :not(i), .scroll-hint, #rsvp .wrap, #contact .wrap, footer .wrap"));
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } });
+    }, { rootMargin: "0px 0px -8% 0px" });
+    els.forEach(function (el) { el.classList.add("rv"); io.observe(el); });
+  }
+
+  /* ---------- Falling gold diamonds and stars ---------- */
   function startPetals() {
     var cv = $("petals"), ctx = cv.getContext("2d"), w, h, dpr = window.devicePixelRatio || 1;
     function size() { w = innerWidth; h = innerHeight; cv.width = w * dpr; cv.height = h * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); }
     size(); addEventListener("resize", size);
     var ps = [];
-    for (var i = 0; i < 20; i++) ps.push({ x: Math.random() * w, y: Math.random() * h - h, r: 4 + Math.random() * 5, v: .5 + Math.random() * .9, a: Math.random() * 6 });
+    for (var i = 0; i < 20; i++) ps.push({ x: Math.random() * w, y: Math.random() * h - h, r: 3 + Math.random() * 4, v: .5 + Math.random() * .9, a: Math.random() * 6, k: i % 2 });
     (function loop() {
       ctx.clearRect(0, 0, w, h);
       ps.forEach(function (p) {
-        p.y += p.v; p.a += .02; p.x += Math.sin(p.a) * .6;
+        p.y += p.v; p.a += .012; p.x += Math.sin(p.a) * .6;
         if (p.y > h + 10) { p.y = -10; p.x = Math.random() * w; }
         ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.a);
-        ctx.fillStyle = "rgba(214,181,106,.5)";
-        ctx.beginPath(); ctx.ellipse(0, 0, p.r, p.r * .55, 0, 0, 6.283); ctx.fill(); ctx.restore();
+        ctx.fillStyle = "rgba(220,185,110,.6)";
+        ctx.beginPath();
+        if (p.k) { var r = p.r * 1.4, q = r * .28; ctx.moveTo(0, -r); ctx.lineTo(q, -q); ctx.lineTo(r, 0); ctx.lineTo(q, q); ctx.lineTo(0, r); ctx.lineTo(-q, q); ctx.lineTo(-r, 0); ctx.lineTo(-q, -q); }
+        else { ctx.moveTo(0, -p.r); ctx.lineTo(p.r * .65, 0); ctx.lineTo(0, p.r); ctx.lineTo(-p.r * .65, 0); }
+        ctx.closePath(); ctx.fill(); ctx.restore();
       });
       requestAnimationFrame(loop);
     })();
@@ -390,15 +412,19 @@
     box.appendChild(who); box.appendChild(meta); box.appendChild(txt);
     return box;
   }
+  var seen = null;
+  function wishKey(w) { return w.ts + "|" + w.name; }
   function render() {
     var list = sortNewest(wishes.filter(function (w) { return w.wish; }));
     var latest = $("latest"), all = $("all-wishes"), tog = $("toggle-all");
     latest.textContent = ""; all.textContent = "";
+    var first = seen === null; if (first) seen = {};
     if (!list.length) {
       var p = document.createElement("p"); p.className = "wishes-empty"; p.textContent = "Jadilah yang pertama menghantar ucapan.";
       latest.appendChild(p); tog.hidden = true; all.hidden = true; return;
     }
-    list.slice(0, 3).forEach(function (w) { latest.appendChild(wishEl(w)); });
+    list.slice(0, 3).forEach(function (w) { var el = wishEl(w); if (!first && !seen[wishKey(w)]) el.classList.add("fresh"); latest.appendChild(el); });
+    list.forEach(function (w) { seen[wishKey(w)] = true; });
     tog.hidden = list.length <= 3;
     if (list.length > 3) list.forEach(function (w) { all.appendChild(wishEl(w)); });
     else all.hidden = true;
