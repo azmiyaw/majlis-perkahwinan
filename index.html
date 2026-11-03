@@ -23,6 +23,7 @@
     --rebung: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='16' viewBox='0 0 36 16'%3E%3Cpolygon points='0,16 9,0 18,16' fill='%23dcb96e'/%3E%3Cpolygon points='18,16 27,0 36,16' fill='%23dcb96e'/%3E%3Cpolygon points='5.5,16 9,7 12.5,16' fill='%234e1020'/%3E%3Cpolygon points='23.5,16 27,7 30.5,16' fill='%234e1020'/%3E%3C/svg%3E");
     --script: "Sacramento", "Snell Roundhand", cursive;
     --names: "Playfair Display", Georgia, "Times New Roman", serif;
+    --bucu: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34' viewBox='0 0 34 34'%3E%3Cg transform='none'%3E%3Cpath d='M1,33 L1,1 L33,1' fill='none' stroke='%23dcb96e' stroke-width='1.6'/%3E%3Cpath d='M6,33 L6,6 L33,6' fill='none' stroke='%23dcb96e' stroke-opacity='.5' stroke-width='1'/%3E%3Cpath d='M10,4 L14,8 L10,12 L6,8Z' fill='%23dcb96e'/%3E%3C/g%3E%3C/svg%3E") top left / 34px no-repeat, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34' viewBox='0 0 34 34'%3E%3Cg transform='translate(34 0) scale(-1 1)'%3E%3Cpath d='M1,33 L1,1 L33,1' fill='none' stroke='%23dcb96e' stroke-width='1.6'/%3E%3Cpath d='M6,33 L6,6 L33,6' fill='none' stroke='%23dcb96e' stroke-opacity='.5' stroke-width='1'/%3E%3Cpath d='M10,4 L14,8 L10,12 L6,8Z' fill='%23dcb96e'/%3E%3C/g%3E%3C/svg%3E") top right / 34px no-repeat, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34' viewBox='0 0 34 34'%3E%3Cg transform='translate(0 34) scale(1 -1)'%3E%3Cpath d='M1,33 L1,1 L33,1' fill='none' stroke='%23dcb96e' stroke-width='1.6'/%3E%3Cpath d='M6,33 L6,6 L33,6' fill='none' stroke='%23dcb96e' stroke-opacity='.5' stroke-width='1'/%3E%3Cpath d='M10,4 L14,8 L10,12 L6,8Z' fill='%23dcb96e'/%3E%3C/g%3E%3C/svg%3E") bottom left / 34px no-repeat, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34' viewBox='0 0 34 34'%3E%3Cg transform='translate(34 34) scale(-1 -1)'%3E%3Cpath d='M1,33 L1,1 L33,1' fill='none' stroke='%23dcb96e' stroke-width='1.6'/%3E%3Cpath d='M6,33 L6,6 L33,6' fill='none' stroke='%23dcb96e' stroke-opacity='.5' stroke-width='1'/%3E%3Cpath d='M10,4 L14,8 L10,12 L6,8Z' fill='%23dcb96e'/%3E%3C/g%3E%3C/svg%3E") bottom right / 34px no-repeat;
     --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
     --sans: "Jost", "Helvetica Neue", Arial, sans-serif;
     color-scheme: dark;
@@ -46,7 +47,7 @@
     transition: opacity .9s ease, transform .9s ease, visibility .9s;
   }
   #gate.leaving { opacity: 0; transform: translateY(-24px); visibility: hidden; }
-  .gate-frame { position: relative; background: var(--card); border: 1px solid var(--gold); outline: 1px solid var(--gold-soft); outline-offset: 8px; padding: 60px clamp(20px, 7vw, 48px); max-width: 420px; width: 100%; }
+  .gate-frame { position: relative; background: var(--card); border: 1px solid rgba(220,185,110,.35); padding: 60px clamp(20px, 7vw, 48px); max-width: 420px; width: 100%; }
   .eyebrow { font-family: var(--sans); font-weight: 300; font-size: .75rem; letter-spacing: .32em; text-transform: uppercase; color: var(--mist); margin: 0 0 18px; }
   .gate-names { font-family: var(--script); color: var(--gold); font-size: clamp(2.6rem, 13vw, 3.8rem); line-height: 1.1; margin: 0 0 8px; text-wrap: balance; }
   .cap { font-size: 1.45em; line-height: 1; }
@@ -74,11 +75,13 @@
   .it { font-style: italic; }
 
   .card { position: relative; background: var(--card); border: 1px solid var(--gold); outline: 1px solid var(--gold-soft); outline-offset: 8px; padding: 64px clamp(20px, 7vw, 52px) 60px; margin-block: 8px; }
-  .card::before, .card::after, .gate-frame::before, .gate-frame::after {
+  .card::before, .card::after {
     content: ""; position: absolute; left: 0; right: 0; height: 16px; background: var(--rebung) repeat-x center / 36px 16px;
   }
-  .card::before, .gate-frame::before { top: 0; }
-  .card::after, .gate-frame::after { bottom: 0; transform: scaleY(-1); }
+  .card::before { top: 0; }
+  .card::after { bottom: 0; transform: scaleY(-1); }
+  /* Bucu: gold corner ornaments on the welcome frame and the RSVP, contact and footer panels. */
+  .gate-frame::before, #rsvp .wrap::before, #contact .wrap::before, footer .wrap::before { content: ""; position: absolute; inset: 8px; pointer-events: none; background: var(--bucu); }
   .parents { font-size: 1.3rem; font-weight: 600; letter-spacing: .02em; margin: 18px 0; }
   .amp { display: block; color: var(--gold); font-style: italic; font-weight: 400; font-size: 1.1rem; }
   .rule { width: 72px; height: 1px; background: var(--gold); margin: 34px auto; border: 0; position: relative; }
@@ -100,7 +103,7 @@
 
   /* ---------- RSVP ---------- */
   /* Solid panels keep text readable over the batik background. */
-  #rsvp .wrap, #contact .wrap, footer .wrap { background: var(--card); border: 1px solid var(--gold-soft); width: calc(100% - 32px); padding-block: 44px; }
+  #rsvp .wrap, #contact .wrap, footer .wrap { position: relative; background: var(--card); border: 1px solid rgba(220,185,110,.35); width: calc(100% - 32px); padding-block: 52px; padding-inline: 24px; }
   .wishes-box { text-align: left; margin-bottom: 34px; }
   .wish { padding: 14px 16px; border: 1px solid rgba(220,185,110,.4); background: var(--ground); margin-bottom: 10px; overflow-wrap: anywhere; }
   .wish .who { font-weight: 600; font-size: 1.15rem; color: var(--gold); }
