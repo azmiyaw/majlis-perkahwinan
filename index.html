@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500&family=Sacramento&family=Playfair+Display:ital,wght@1,400;1,500&display=swap">
 <style>
-  /* Palette and type tokens. Maroon ground, gold accents, ivory text; potong wajik (diamond lattice with tampuk manggis stars) songket tile and pucuk rebung borders drawn as inline SVG. */
+  /* Palette and type tokens. Maroon ground, gold accents, ivory text; potong wajik (diamond lattice with tampuk manggis stars) songket tile and bucu corner ornaments drawn as inline SVG. */
   :root {
     --ground: #3b0a14;
     --card: #4e1020;
@@ -20,7 +20,6 @@
     --mist: #dcc3b4;
     --danger: #ffb4a8;
     --batik: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cpath d='M0,28 L28,0 L56,28 L28,56Z' fill='none' stroke='%23dcb96e' stroke-opacity='0.32' stroke-width='1.1'/%3E%3Cpath d='M28,12 L44,28 L28,44 L12,28Z' fill='%23521327' stroke='%23dcb96e' stroke-opacity='0.42' stroke-width='1.1'/%3E%3Cpath d='M28,20 L36,28 L28,36 L20,28Z' fill='none' stroke='%23dcb96e' stroke-opacity='0.3' stroke-width='0.8'/%3E%3Ccircle cx='28' cy='28' r='1.8' fill='%23dcb96e' fill-opacity='.5'/%3E%3Cpath transform='translate(0 0)' d='M0,-7 L1.75,-1.75 L7,0 L1.75,1.75 L0,7 L-1.75,1.75 L-7,0 L-1.75,-1.75Z' fill='%23dcb96e' fill-opacity='.45'/%3E%3Cpath transform='translate(0 56)' d='M0,-7 L1.75,-1.75 L7,0 L1.75,1.75 L0,7 L-1.75,1.75 L-7,0 L-1.75,-1.75Z' fill='%23dcb96e' fill-opacity='.45'/%3E%3Cpath transform='translate(56 0)' d='M0,-7 L1.75,-1.75 L7,0 L1.75,1.75 L0,7 L-1.75,1.75 L-7,0 L-1.75,-1.75Z' fill='%23dcb96e' fill-opacity='.45'/%3E%3Cpath transform='translate(56 56)' d='M0,-7 L1.75,-1.75 L7,0 L1.75,1.75 L0,7 L-1.75,1.75 L-7,0 L-1.75,-1.75Z' fill='%23dcb96e' fill-opacity='.45'/%3E%3C/svg%3E");
-    --rebung: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='16' viewBox='0 0 36 16'%3E%3Cpolygon points='0,16 9,0 18,16' fill='%23dcb96e'/%3E%3Cpolygon points='18,16 27,0 36,16' fill='%23dcb96e'/%3E%3Cpolygon points='5.5,16 9,7 12.5,16' fill='%234e1020'/%3E%3Cpolygon points='23.5,16 27,7 30.5,16' fill='%234e1020'/%3E%3C/svg%3E");
     --script: "Sacramento", "Snell Roundhand", cursive;
     --names: "Playfair Display", Georgia, "Times New Roman", serif;
     --bucu: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34' viewBox='0 0 34 34'%3E%3Cg transform='none'%3E%3Cpath d='M1,33 L1,1 L33,1' fill='none' stroke='%23dcb96e' stroke-width='1.6'/%3E%3Cpath d='M6,33 L6,6 L33,6' fill='none' stroke='%23dcb96e' stroke-opacity='.5' stroke-width='1'/%3E%3Cpath d='M10,4 L14,8 L10,12 L6,8Z' fill='%23dcb96e'/%3E%3C/g%3E%3C/svg%3E") top left / 34px no-repeat, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34' viewBox='0 0 34 34'%3E%3Cg transform='translate(34 0) scale(-1 1)'%3E%3Cpath d='M1,33 L1,1 L33,1' fill='none' stroke='%23dcb96e' stroke-width='1.6'/%3E%3Cpath d='M6,33 L6,6 L33,6' fill='none' stroke='%23dcb96e' stroke-opacity='.5' stroke-width='1'/%3E%3Cpath d='M10,4 L14,8 L10,12 L6,8Z' fill='%23dcb96e'/%3E%3C/g%3E%3C/svg%3E") top right / 34px no-repeat, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34' viewBox='0 0 34 34'%3E%3Cg transform='translate(0 34) scale(1 -1)'%3E%3Cpath d='M1,33 L1,1 L33,1' fill='none' stroke='%23dcb96e' stroke-width='1.6'/%3E%3Cpath d='M6,33 L6,6 L33,6' fill='none' stroke='%23dcb96e' stroke-opacity='.5' stroke-width='1'/%3E%3Cpath d='M10,4 L14,8 L10,12 L6,8Z' fill='%23dcb96e'/%3E%3C/g%3E%3C/svg%3E") bottom left / 34px no-repeat, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34' viewBox='0 0 34 34'%3E%3Cg transform='translate(34 34) scale(-1 -1)'%3E%3Cpath d='M1,33 L1,1 L33,1' fill='none' stroke='%23dcb96e' stroke-width='1.6'/%3E%3Cpath d='M6,33 L6,6 L33,6' fill='none' stroke='%23dcb96e' stroke-opacity='.5' stroke-width='1'/%3E%3Cpath d='M10,4 L14,8 L10,12 L6,8Z' fill='%23dcb96e'/%3E%3C/g%3E%3C/svg%3E") bottom right / 34px no-repeat;
@@ -74,14 +73,9 @@
   .muted { color: var(--mist); }
   .it { font-style: italic; }
 
-  .card { position: relative; background: var(--card); border: 1px solid var(--gold); outline: 1px solid var(--gold-soft); outline-offset: 8px; padding: 64px clamp(20px, 7vw, 52px) 60px; margin-block: 8px; }
-  .card::before, .card::after {
-    content: ""; position: absolute; left: 0; right: 0; height: 16px; background: var(--rebung) repeat-x center / 36px 16px;
-  }
-  .card::before { top: 0; }
-  .card::after { bottom: 0; transform: scaleY(-1); }
-  /* Bucu: gold corner ornaments on the welcome frame and the RSVP, contact and footer panels. */
-  .gate-frame::before, #rsvp .wrap::before, #contact .wrap::before, footer .wrap::before { content: ""; position: absolute; inset: 8px; pointer-events: none; background: var(--bucu); }
+  .card { position: relative; background: var(--card); border: 1px solid rgba(220,185,110,.35); padding: 64px clamp(20px, 7vw, 52px) 60px; margin-block: 8px; }
+  /* Bucu: gold corner ornaments on the welcome frame, invitation card and the RSVP, contact and footer panels. */
+  .card::before, .gate-frame::before, #rsvp .wrap::before, #contact .wrap::before, footer .wrap::before { content: ""; position: absolute; inset: 8px; pointer-events: none; background: var(--bucu); }
   .parents { font-size: 1.3rem; font-weight: 600; letter-spacing: .02em; margin: 18px 0; }
   .amp { display: block; color: var(--gold); font-style: italic; font-weight: 400; font-size: 1.1rem; }
   .rule { width: 72px; height: 1px; background: var(--gold); margin: 34px auto; border: 0; position: relative; }
